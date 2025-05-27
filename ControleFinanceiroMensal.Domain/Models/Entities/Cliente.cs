@@ -1,4 +1,6 @@
-﻿namespace ControleFinanceiroMensalDomain.Models.Entities
+﻿using System.ComponentModel;
+
+namespace ControleFinanceiroMensalDomain.Models.Entities
 {
     public class Cliente
     {
@@ -6,8 +8,17 @@
         {
 
             Id = Guid.NewGuid();
-            Resumos = new List<Resumo>();
 
+            
+        }
+
+        public Guid Id { get; private set; }
+
+        public BindingList<Resumo> Resumos { get; set; } = new BindingList<Resumo>();
+
+
+        private void CriarResumosNaoExistentesPor5Anos()
+        {
             var dataAtual = DateTime.Now;
             var dataFinal = new DateTime(dataAtual.Year + 5, 12, 1);
 
@@ -15,23 +26,26 @@
 
             while (dataIteracao < dataFinal)
             {
-                Resumos.Add(new Resumo(dataIteracao));
-                dataIteracao = dataIteracao.AddMonths(1);
+                if (!Resumos.Any(r => r.Id == $"{dataIteracao.Month}_{dataIteracao.Year}"))
+                {
+                    Resumos.Add(new Resumo(dataIteracao));
+                    dataIteracao = dataIteracao.AddMonths(1);
+                }
             }
         }
-
-        public Guid Id { get; private set; }
-
-        public List<Resumo> Resumos { get; private set; }= new List<Resumo>();
-
-        public void CadastrarMovimentacao(Movimentacao movimentacao,bool seRepete, int? mes, int? ano)
+        public void CadastrarMovimentacao(Movimentacao movimentacao,bool seRepete, int? mes, int? ano, int? dia)
         {
             if (!seRepete)
             {
-                var resumo = Resumos.FirstOrDefault(r => r.Id == $"{mes}_{ano}");
+
+                var data = new DateTime(ano.Value, mes.Value, dia.Value);
+                var id = $"{data.Month}_{data.Year}";
+                var resumo = Resumos.FirstOrDefault(r => r.Id == id);
                 if (resumo == null)
                 {
-                    throw new Exception($"Não Existe Resumo para o Mês: {mes} Ano:{ano}");
+                    Resumos.Add(new Resumo(data));
+                    var resumoAdicionado = Resumos.FirstOrDefault(r => r.Id == id);
+                    resumoAdicionado.AdicionarMovimentacao(movimentacao);
                 }
                 else
                 {
@@ -40,7 +54,9 @@
             }
             else
             {
-                foreach(var resumo in Resumos)
+
+                CriarResumosNaoExistentesPor5Anos();
+                foreach (var resumo in Resumos)
                 {
                     resumo.AdicionarMovimentacao(movimentacao);
                 }

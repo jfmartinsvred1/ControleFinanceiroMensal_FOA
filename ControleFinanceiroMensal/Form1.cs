@@ -19,14 +19,13 @@ namespace ControleFinanceiroMensal
 
             inputValorMovimentacao.KeyPress += inputValorMovimentacao_KeyPress;
 
-
-            Cliente = new Cliente();
-
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
             inputValorMovimentacao.Text = 0.ToString("C2");
+            Cliente = new Cliente();
+            dataGridView1.DataSource = Cliente.Resumos;
         }
 
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
@@ -107,8 +106,7 @@ namespace ControleFinanceiroMensal
             var dataAtual = DateTime.Now;
             var movimentacao = new Movimentacao(tipoSelecionado == "Entrada" ? ETipoMovimentacao.Entrada : ETipoMovimentacao.Saida, valor, nome,diaSelecionado);
 
-            Cliente.CadastrarMovimentacao(movimentacao, seRepete, mes, anoSelecionado);
-            dataGridView1.DataSource = Cliente.Resumos;
+            Cliente.CadastrarMovimentacao(movimentacao, seRepete, mes, anoSelecionado,diaSelecionado);
 
             MessageBox.Show("Movimentação criada com sucesso!");
         }

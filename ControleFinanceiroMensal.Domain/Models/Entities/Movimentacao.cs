@@ -1,4 +1,5 @@
-﻿using ControleFinanceiroMensalDomain.Interfaces;
+﻿using System.ComponentModel;
+using ControleFinanceiroMensalDomain.Interfaces;
 using ControleFinanceiroMensalDomain.Models.Common;
 using ControleFinanceiroMensalDomain.Models.Enums;
 
@@ -16,7 +17,7 @@ namespace ControleFinanceiroMensalDomain.Models.Entities
         }
         public ETipoMovimentacao Tipo { get; private set; }
 
-        public List<Resumo> Resumos { get; private set; }=[];
+        public BindingList<Resumo> Resumos { get; private set; }=[];
         public void AdicionarResumo(Resumo resumo)
         {
             Resumos.Add(resumo);
