@@ -13,7 +13,7 @@ namespace ControleFinanceiroMensalDomain.Models.Entities
         }
 
         public Guid Id { get; private set; }
-
+        
         public BindingList<Resumo> Resumos { get; set; } = new BindingList<Resumo>();
 
 
@@ -55,7 +55,7 @@ namespace ControleFinanceiroMensalDomain.Models.Entities
             else
             {
 
-                CriarResumosNaoExistentesPor5Anos();
+               CriarResumosNaoExistentesPor5Anos();
                 foreach (var resumo in Resumos)
                 {
                     resumo.AdicionarMovimentacao(movimentacao);

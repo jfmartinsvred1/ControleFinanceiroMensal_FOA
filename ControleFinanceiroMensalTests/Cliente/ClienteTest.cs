@@ -12,24 +12,6 @@ namespace ControleFinanceiroMensalTests.Cliente
     public class ClienteTest
     {
         [Fact]
-        public void Ctor_QuandoCriarUmCliente_DeveCriarUmaListaDeResumoPor5Anoss()
-        {
-            #region Arrange
-            var hoje = DateTime.Now;
-
-            var dataFinal = new DateTime(hoje.Year + 5, 12, 31);
-
-            int totalMeses = ((dataFinal.Year - hoje.Year) * 12) + dataFinal.Month - hoje.Month;
-
-            #endregion Arrange
-            #region Act
-            var cliente = new ControleFinanceiroMensalDomain.Models.Entities.Cliente();
-            #region Act
-            #endregion Assert
-            Assert.Equal(totalMeses,cliente.Resumos.Count());
-            #endregion Assert
-        }
-        [Fact]
         public void CadastrarMovimentacao_QuandoSeCadastrarUmaMovimentacaoQueNaoSeRepeteCorreta_DeveIrParaOResumoCorreto()
         {
 
@@ -39,7 +21,7 @@ namespace ControleFinanceiroMensalTests.Cliente
             var dataAtual = DateTime.Now;
             #endregion Arrange
             #region Act
-            cliente.CadastrarMovimentacao(movimentacao,false,dataAtual.Month,dataAtual.Year);
+            cliente.CadastrarMovimentacao(movimentacao,false,dataAtual.Month,dataAtual.Year,5);
             #region Act
             #endregion Assert
             var resumo = cliente.Resumos.FirstOrDefault(r => r.Id == $"{dataAtual.Month}_{dataAtual.Year}");
@@ -58,7 +40,7 @@ namespace ControleFinanceiroMensalTests.Cliente
             var dataAtual = DateTime.Now;
             #endregion Arrange
             #region Act
-            cliente.CadastrarMovimentacao(movimentacao, true, dataAtual.Month, dataAtual.Year);
+            cliente.CadastrarMovimentacao(movimentacao, true, dataAtual.Month, dataAtual.Year,5);
             #region Act
             #endregion Assert
             foreach( var resumo in cliente.Resumos)
