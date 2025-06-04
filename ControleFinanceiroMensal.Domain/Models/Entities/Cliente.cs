@@ -9,7 +9,7 @@ namespace ControleFinanceiroMensalDomain.Models.Entities
 
             Id = Guid.NewGuid();
 
-            
+            CriarResumosNaoExistentesPor5Anos();
         }
 
         public Guid Id { get; private set; }
@@ -54,8 +54,6 @@ namespace ControleFinanceiroMensalDomain.Models.Entities
             }
             else
             {
-
-               CriarResumosNaoExistentesPor5Anos();
                 foreach (var resumo in Resumos)
                 {
                     resumo.AdicionarMovimentacao(movimentacao);
