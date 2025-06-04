@@ -28,7 +28,7 @@ namespace ControleFinanceiroMensalDomain.Models.Entities
             {
                 if (!Resumos.Any(r => r.Id == $"{dataIteracao.Month}_{dataIteracao.Year}"))
                 {
-                    Resumos.Add(new Resumo(dataIteracao));
+                    Resumos.Add(new Resumo(dataIteracao,this));
                     dataIteracao = dataIteracao.AddMonths(1);
                 }
             }
@@ -43,7 +43,7 @@ namespace ControleFinanceiroMensalDomain.Models.Entities
                 var resumo = Resumos.FirstOrDefault(r => r.Id == id);
                 if (resumo == null)
                 {
-                    Resumos.Add(new Resumo(data));
+                    Resumos.Add(new Resumo(data, this));
                     var resumoAdicionado = Resumos.FirstOrDefault(r => r.Id == id);
                     resumoAdicionado.AdicionarMovimentacao(movimentacao);
                 }

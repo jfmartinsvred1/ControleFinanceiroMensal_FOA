@@ -11,7 +11,7 @@ namespace ControleFinanceiroMensalTests.Movimentacoes
 
             #region Arrange
             var dataAtual = DateTime.Now;
-            var resumo = new ControleFinanceiroMensalDomain.Models.Entities.Resumo(dataAtual);
+            var resumo = new ControleFinanceiroMensalDomain.Models.Entities.Resumo(dataAtual, new ControleFinanceiroMensalDomain.Models.Entities.Cliente());
             var movimentacao = new Movimentacao(ETipoMovimentacao.Entrada, 500, "", 5);
             #endregion Arrange
             #region Act

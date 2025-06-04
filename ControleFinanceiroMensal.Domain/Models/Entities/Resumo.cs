@@ -7,13 +7,15 @@ namespace ControleFinanceiroMensalDomain.Models.Entities
 {
     public class Resumo : IResumo, INotifyPropertyChanged
     {
-        public Resumo(DateTime data)
+        public Resumo(DateTime data, Cliente cliente)
         {
             DataInicio = new DateTime(data.Year, data.Month, 1);
             DataFim = DataInicio.AddMonths(1).AddDays(-1);
             Id = $"{DataInicio.Month}_{DataInicio.Year}";
+            Cliente = cliente;
         }
 
+        public Cliente Cliente { get; set; }
         public string Id { get; set; }
         public DateTime DataInicio { get; private set; }
         public DateTime DataFim { get; private set; }
